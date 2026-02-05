@@ -4,8 +4,10 @@
 <div class="page">
     <header class="hero">
         <div class="hero-text">
-            <p class="hero-eyebrow">Reverie · 生成式智能体小镇</p>
-            <h1>小镇回放控制台</h1>
+            <p class="hero-eyebrow">SYSTEM: ONLINE | SIMULATION: ACTIVE</p>
+            <h1>AI 小镇 <span
+                    style="font-size: 12px; color: #ff0055; vertical-align: middle; animation: blink 1s infinite;">●
+                    LIVE</span></h1>
             <p class="hero-subtitle">浏览智能体的活动轨迹、对话与当前位置。选择居民查看状态，按方向键移动视角。</p>
         </div>
         <div class="hero-meta">
@@ -36,7 +38,8 @@
                     <div class="agent-chip" id="on_screen_det_trigger_container-{{ p }}">
                         <a class="agent-link" href="javascript:void(0);" id="on_screen_det_trigger-{{ p }}">
                             {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
-                            <img src="{{ url_for('static', filename=image_static) }}" class="agent-avatar" alt="{{ p }}">
+                            <img src="{{ url_for('static', filename=image_static) }}" class="agent-avatar"
+                                alt="{{ p }}">
                             <span class="agent-name">{{ p }}</span>
                         </a>
                     </div>
@@ -51,17 +54,17 @@
                 </div>
 
                 {% for p in persona_names %}
-                    <div class="detail-content" id="on_screen_det_content-{{ p }}" style="display: none;">
-                        <div class="detail-avatar">
-                            {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
-                            <img src="{{ url_for('static', filename=image_static) }}" alt="{{ p }}">
-                        </div>
-                        <div class="detail-body">
-                            <p class="detail-desc"><span id="agent_desc__{{ p }}"></span></p>
-                            <p class="detail-action">当前活动：<span id="current_action__{{ p }}"></span></p>
-                            <p class="detail-location">目标位置：<span id="target_address__{{ p }}"></span></p>
-                        </div>
+                <div class="detail-content" id="on_screen_det_content-{{ p }}" style="display: none;">
+                    <div class="detail-avatar">
+                        {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
+                        <img src="{{ url_for('static', filename=image_static) }}" alt="{{ p }}">
                     </div>
+                    <div class="detail-body">
+                        <p class="detail-desc"><span id="agent_desc__{{ p }}"></span></p>
+                        <p class="detail-action">当前活动：<span id="current_action__{{ p }}"></span></p>
+                        <p class="detail-location">目标位置：<span id="target_address__{{ p }}"></span></p>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
         </aside>
@@ -76,22 +79,22 @@
 <script src='https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js'></script>
 {% include 'main_script.html' %}
 <script>
-{% for p in persona_names %}
-    $('#on_screen_det_trigger-{{ p }}').click(function() {
+    {% for p in persona_names %}
+    $('#on_screen_det_trigger-{{ p }}').click(function () {
         $('#on_screen_det_content-init').css({
-          'display': 'none',
+            'display': 'none',
         });
         {% for p_i in persona_names %}
-            $('#on_screen_det_content-{{p_i}}').css({
-                'display': 'none',
-            });
-            $('#on_screen_det_trigger-{{p_i}}').css({
-                'font-weight': '500',
-            });
-            $('#on_screen_det_trigger_container-{{p_i}}').css({
-                'background-color': 'white',
-                'border-radius': '10px'
-            });
+        $('#on_screen_det_content-{{p_i}}').css({
+            'display': 'none',
+        });
+        $('#on_screen_det_trigger-{{p_i}}').css({
+            'font-weight': '500',
+        });
+        $('#on_screen_det_trigger_container-{{p_i}}').css({
+            'background-color': 'white',
+            'border-radius': '10px'
+        });
         {% endfor %}
 
         $('#on_screen_det_trigger-{{ p }}').css({
@@ -107,6 +110,6 @@
 
         document.getElementById("temp_focus").innerHTML = "{{ p }}";
     });
-{% endfor %}
+    {% endfor %}
 </script>
 {% endblock js_content %}
