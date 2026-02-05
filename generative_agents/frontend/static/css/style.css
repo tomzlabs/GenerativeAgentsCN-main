@@ -9,9 +9,45 @@
   --warning: #ffcc00;
   --border-color: #5d6d7e;
   --card-bg: #2b2b45;
-  --font-header: "Press Start 2P", cursive;
-  --font-body: "VT323", monospace;
+  --font-header: "Press Start 2P", "Microsoft YaHei", cursive;
+  --font-body: "VT323", "Microsoft YaHei", monospace;
   --scanline: rgba(18, 16, 16, 0.5);
+}
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: #00ff00;
+  font-family: var(--font-header);
+}
+
+#loading-text {
+  font-size: 24px;
+  margin-bottom: 20px;
+  animation: blink 0.5s infinite;
+}
+
+.loading-bar {
+  width: 300px;
+  height: 20px;
+  border: 4px solid #00ff00;
+  padding: 2px;
+}
+
+.loading-progress {
+  width: 0%;
+  height: 100%;
+  background: #00ff00;
+  transition: width 0.2s;
 }
 
 * {
@@ -27,7 +63,8 @@ body {
   background-size: 4px 4px;
   color: var(--text-main);
   font-family: var(--font-body);
-  font-size: 18px; /* Slightly larger for pixel font readability */
+  font-size: 18px;
+  /* Slightly larger for pixel font readability */
   min-height: 100%;
 }
 
@@ -47,9 +84,17 @@ body::after {
 }
 
 @keyframes flicker {
-  0% { opacity: 0.15; }
-  50% { opacity: 0.2; }
-  100% { opacity: 0.15; }
+  0% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 0.15;
+  }
 }
 
 .page {
@@ -106,7 +151,7 @@ body::after {
   font-size: 10px;
   margin-right: 10px;
   margin-bottom: 5px;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
 .layout {
@@ -136,8 +181,8 @@ body::after {
   image-rendering: pixelated;
 }
 
-#game-container > canvas {
-  image-rendering: pixelated; 
+#game-container>canvas {
+  image-rendering: pixelated;
   /* Force sharp scaling for the canvas itself */
   border: 2px solid #333;
 }
@@ -209,7 +254,7 @@ body::after {
   gap: 15px;
   border: 2px dashed var(--border-color);
   padding: 10px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   margin-bottom: 15px;
 }
 
@@ -227,7 +272,8 @@ body::after {
   margin: 0 0 5px 0;
 }
 
-.detail-action, .detail-location {
+.detail-action,
+.detail-location {
   color: var(--text-main);
   font-size: 16px;
   margin: 0;
@@ -246,7 +292,7 @@ body::after {
   border: 2px solid var(--accent-glow);
   color: var(--text-bright);
   padding: 10px;
-  max-width: 250px; 
+  max-width: 250px;
 }
 
 .overlay-title {
@@ -258,7 +304,9 @@ body::after {
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .overlay-text {
@@ -269,13 +317,16 @@ body::after {
 ::-webkit-scrollbar {
   width: 12px;
 }
+
 ::-webkit-scrollbar-track {
   background: #000;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--text-bright);
   border: 2px solid #000;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-glow);
 }

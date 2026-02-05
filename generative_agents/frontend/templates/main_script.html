@@ -68,6 +68,16 @@
 	function preload() {
 		this.load.crossOrigin = "";
 
+		// Loading progress update
+		let total_assets = Object.keys(persona_names).length + 20;
+		let loaded_assets = 0;
+		this.load.on('filecomplete', function (key, type, data) {
+			loaded_assets++;
+			let progress = Math.min((loaded_assets / total_assets) * 100, 100);
+			let bar = document.getElementById('progress-bar');
+			if (bar) bar.style.width = progress + '%';
+		});
+
 		// Load images
 		this.load.image("blocks_1", "static/assets/village/tilemap/blocks_1.png");
 		this.load.image("walls", "static/assets/village/tilemap/Room_Builder_32x32.png");
@@ -100,6 +110,12 @@
 
 	// Create function
 	function create() {
+		// Hide loading screen
+		setTimeout(() => {
+			let screen = document.getElementById('loading-screen');
+			if (screen) screen.style.display = 'none';
+		}, 800);
+
 		const map = this.make.tilemap({ key: "map" });
 
 		// Add tilesets and layers
