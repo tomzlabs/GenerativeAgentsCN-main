@@ -6,7 +6,7 @@
       "use": "@vercel/python",
       "config": {
         "maxDuration": 30,
-        "includeFiles": "{public/**,generative_agents/frontend/templates/**,generative_agents/results/compressed/**}"
+        "includeFiles": "public/**"
       }
     }
   ],
