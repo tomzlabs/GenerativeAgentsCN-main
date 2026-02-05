@@ -88,5 +88,31 @@ def index():
     )
 
 
+@app.route("/api/connect_agent", methods=['POST'])
+def connect_agent():
+    """
+    API endpoint to connect an external bot to an agent.
+    Expected JSON: {"agent_name": "Isabella", "api_url": "http://..."}
+    """
+    from generative_agents.modules.game import get_game
+    
+    data = request.json
+    agent_name = data.get("agent_name")
+    api_url = data.get("api_url")
+    
+    if not agent_name or not api_url:
+        return {"status": "error", "message": "Missing agent_name or api_url"}, 400
+        
+    game = get_game()
+    if not game:
+        return {"status": "error", "message": "Game not initialized (try loading the page first)"}, 500
+        
+    success, msg = game.swap_to_remote(agent_name, api_url)
+    if success:
+        return {"status": "success", "message": msg}
+    else:
+        return {"status": "error", "message": msg}, 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)

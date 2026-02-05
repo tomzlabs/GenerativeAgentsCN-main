@@ -84,6 +84,53 @@ class Game:
             title = "{}.reset".format(a_name)
             self.logger.info("\n{}\n{}\n".format(utils.split_line(title), agent))
 
+    def swap_to_remote(self, agent_name, api_url):
+        """
+        Hot-swap an agent to a RemoteAgent dynamically.
+        """
+        if agent_name not in self.agents:
+            return False, "Agent not found"
+        
+        current_agent = self.agents[agent_name]
+        
+        # If already remote, just update the URL
+        if isinstance(current_agent, RemoteAgent):
+            current_agent.api_url = api_url
+            return True, f"Updated {agent_name} API URL to {api_url}"
+
+        # Create config for remote agent based on current agent properties
+        # We need to preserve essential config while adding remote params
+        new_config = {
+            "name": current_agent.name,
+            "percept": current_agent.percept_config,
+            "think": current_agent.think_config,
+            "chat_iter": current_agent.chat_iter,
+            "spatial": current_agent.spatial.to_dict() if hasattr(current_agent.spatial, "to_dict") else {}, # Re-initializing might be tricky without full config
+            # Simpler approach: Create RemoteAgent and manually copy state
+            "api_url": api_url
+        }
+        
+        # NOTE: Ideally we'd reload from the original config file, but we might not have the path handy easily 
+        # unless we stored it. The Agent init is complex.
+        # Let's try to wrap the existing agent or re-instantiate carefully.
+        # A safer pattern for hot-swapping:
+        # 1. Instantiate RemoteAgent with same args as original used?
+        # The original Game.__init__ loaded from files. Re-loading is safest.
+        
+        # Taking a shortcut for this demo: Modify the existing object class via mixin or brute replacement? 
+        # Brute replacement is safer but requires config.
+        # Let's use the stored config in Game (it might be in self.agents... wait, Agent doesn't store full raw config).
+        # Actually, let's look at Game.__init__. It iterates config["agents"].
+        
+        # BETTER APPROACH: Just change the class of the instance (Python magic) or Monkey Patch the `think` method.
+        # Changing class is cleaner for `reset` etc.
+        
+        current_agent.__class__ = RemoteAgent
+        current_agent.api_url = api_url
+        current_agent.logger.info(f"Hot-swapped {agent_name} to RemoteAgent targeting {api_url}")
+        
+        return True, "Success"
+
 
 def create_game(name, static_root, config, conversation, logger=None):
     """Create the game"""

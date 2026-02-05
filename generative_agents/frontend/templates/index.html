@@ -14,10 +14,29 @@
             <span class="meta-pill">方向键移动视角</span>
             <span class="meta-pill">滚轮缩放视图</span>
             <span class="meta-pill">空格键暂停/继续</span>
+            <button id="connect-bot-btn" class="meta-pill"
+                style="cursor: pointer; background: var(--accent); color: #000;">⚡ 接入 BOT</button>
         </div>
     </header>
 
-    <main class="layout">
+    <section class="agent-bar">
+        <div class="card agent-card">
+            <div class="card-title">居民 (点击查看详情 / 接入 BOT)</div>
+            <div class="agent-grid">
+                {% for p in persona_names %}
+                <div class="agent-chip" id="on_screen_det_trigger_container-{{ p }}">
+                    <a class="agent-link" href="javascript:void(0);" id="on_screen_det_trigger-{{ p }}">
+                        {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
+                        <img src="{{ url_for('static', filename=image_static) }}" class="agent-avatar" alt="{{ p }}">
+                        <span class="agent-name">{{ p }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <main class="layout-stack">
         <section class="canvas-panel">
             <div class="canvas-shell">
                 <div id="loading-screen">
@@ -36,23 +55,7 @@
             </div>
         </section>
 
-        <aside class="side-panel">
-            <div class="card agent-card">
-                <div class="card-title">居民</div>
-                <div class="agent-grid">
-                    {% for p in persona_names %}
-                    <div class="agent-chip" id="on_screen_det_trigger_container-{{ p }}">
-                        <a class="agent-link" href="javascript:void(0);" id="on_screen_det_trigger-{{ p }}">
-                            {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
-                            <img src="{{ url_for('static', filename=image_static) }}" class="agent-avatar"
-                                alt="{{ p }}">
-                            <span class="agent-name">{{ p }}</span>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
+        <section class="detail-panel">
             <div class="card detail-card">
                 <div class="card-title">当前状态</div>
                 <div class="detail-placeholder" id="on_screen_det_content-init">
@@ -73,11 +76,38 @@
                 </div>
                 {% endfor %}
             </div>
-        </aside>
+        </section>
     </main>
 </div>
 
 <div class="sr-only" id="temp_focus"></div>
+
+<!-- Connect Bot Modal -->
+<div id="connect-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2 style="font-family: var(--font-header); color: var(--accent); margin-top: 0;">⚡ 接入外部 BOT</h2>
+        <p>选择一个居民并输入你的 Bot API 地址。</p>
+
+        <div class="form-group">
+            <label>选择居民:</label>
+            <select id="bot-agent-select">
+                {% for p in persona_names %}
+                <option value="{{ p }}">{{ p }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>API 地址:</label>
+            <input type="text" id="bot-api-url" placeholder="http://localhost:5000/api"
+                value="http://localhost:5000/api">
+        </div>
+
+        <button id="confirm-connect-btn" class="pixel-btn">开始连接</button>
+        <div id="connect-status" style="margin-top: 10px; font-size: 12px;"></div>
+    </div>
+</div>
 
 {% endblock content %}
 
@@ -117,5 +147,58 @@
         document.getElementById("temp_focus").innerHTML = "{{ p }}";
     });
     {% endfor %}
+
+    // Connect Bot Modal Logic
+    var modal = document.getElementById("connect-modal");
+    var btn = document.getElementById("connect-bot-btn");
+    var span = document.getElementsByClassName("close-modal")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "flex";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    document.getElementById("confirm-connect-btn").addEventListener("click", function () {
+        let agentName = document.getElementById("bot-agent-select").value;
+        let apiUrl = document.getElementById("bot-api-url").value;
+        let statusDiv = document.getElementById("connect-status");
+
+        statusDiv.innerText = "Connecting...";
+
+        fetch("/api/connect_agent", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "agent_name": agentName,
+                "api_url": apiUrl
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    statusDiv.innerText = "Success: " + data.message;
+                    statusDiv.style.color = "#00ff00";
+                    setTimeout(() => { modal.style.display = "none"; }, 1500);
+                } else {
+                    statusDiv.innerText = "Error: " + data.message;
+                    statusDiv.style.color = "#ff0055";
+                }
+            })
+            .catch(error => {
+                statusDiv.innerText = "Error: " + error;
+                statusDiv.style.color = "#ff0055";
+            });
+    });
 </script>
 {% endblock js_content %}
