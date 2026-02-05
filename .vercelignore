@@ -1,0 +1,7 @@
+docs
+generative_agents/results/checkpoints
+generative_agents/vercel_demo
+generative_agents/modules
+generative_agents/data
+generative_agents/__pycache__
+**/__pycache__

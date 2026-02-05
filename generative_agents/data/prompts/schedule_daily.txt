@@ -1,0 +1,38 @@
+请根据以下信息生成详细的24小时日程表：
+
+"""
+${base_desc}
+智能体：${agent}
+初始日程：${daily_schedule}
+时间模板：
+${hourly_schedule}
+"""
+
+确保返回的数据格式遵守schema：
+示例：
+[
+  {"time": "6:00", "activity": "起床并完成早晨的例行工作"},
+  {"time": "7:00", "activity": "吃早餐"},
+  {"time": "8:00", "activity": "读书"},
+  {"time": "9:00", "activity": "读书"},
+  {"time": "10:00", "activity": "读书"},
+  {"time": "11:00", "activity": "读书"},
+  {"time": "12:00", "activity": "吃午饭"},
+  {"time": "13:00", "activity": "小睡一会儿"},
+  {"time": "14:00", "activity": "小睡一会儿"},
+  {"time": "15:00", "activity": "小睡一会儿"},
+  {"time": "16:00", "activity": "继续工作"},
+  {"time": "17:00", "activity": "继续工作"},
+  {"time": "18:00", "activity": "回家"},
+  {"time": "19:00", "activity": "放松，看电视"},
+  {"time": "20:00", "activity": "放松，看电视"},
+  {"time": "21:00", "activity": "睡前看书"},
+  {"time": "22:00", "activity": "准备睡觉"},
+  {"time": "23:00", "activity": "睡觉"}
+]
+
+要求：
+- 为每个小时填写具体活动
+- 活动描述要具体且符合人物设定
+- 至少包含5个不同的活动类型
+- 确保返回的数据格式遵守schema

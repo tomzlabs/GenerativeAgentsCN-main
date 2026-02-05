@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 30,
+      "includeFiles": [
+        "generative_agents/frontend/static/**",
+        "generative_agents/frontend/templates/**",
+        "generative_agents/results/compressed/**"
+      ]
+    }
+  },
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/api/index.py" },
+    { "source": "/(.*)", "destination": "/api/index.py" }
+  ]
+}
