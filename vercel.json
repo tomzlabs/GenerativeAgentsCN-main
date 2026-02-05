@@ -10,9 +10,8 @@
       }
     }
   ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/api/health", "dest": "/api/health.py" },
-    { "src": "/(.*)", "dest": "/api/index.py" }
+  "rewrites": [
+    { "source": "/api/health", "destination": "/api/health.py" },
+    { "source": "/(.*)", "destination": "/api/index.py" }
   ]
 }
