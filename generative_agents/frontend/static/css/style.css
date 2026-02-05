@@ -25,9 +25,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 100;
+  /* Ensure it covers everything */
   color: #00ff00;
   font-family: var(--font-header);
+}
+
+/* ... existing code ... */
+
+.canvas-overlay {
+  position: absolute;
+  top: 20px;
+  /* Move to top to avoid potential bottom clipping */
+  right: 20px;
+  pointer-events: none;
+  z-index: 50;
+  /* Above canvas, below loading screen */
 }
 
 #loading-text {
@@ -171,6 +184,7 @@ body::after {
   padding: 4px;
   box-shadow: 8px 8px 0px #000;
   position: relative;
+  /* Removed overflow: hidden to allow overlay to show if slightly out of bounds */
 }
 
 #game-container {
@@ -290,9 +304,10 @@ body::after {
 /* Overlay / Tooltip Styles */
 .canvas-overlay {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   pointer-events: none;
+  z-index: 50;
 }
 
 .overlay-card {
