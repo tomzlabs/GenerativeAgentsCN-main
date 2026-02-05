@@ -2,7 +2,7 @@ import os
 import sys
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-STATIC_ROOT = os.path.join(REPO_ROOT, "generative_agents", "frontend", "static")
+STATIC_ROOT = os.path.join(REPO_ROOT, "public", "static")
 os.environ.setdefault("STATIC_ROOT", STATIC_ROOT)
 
 ROOT = os.path.join(REPO_ROOT, "generative_agents")
