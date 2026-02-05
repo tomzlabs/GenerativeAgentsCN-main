@@ -1,7 +1,7 @@
 import os
 import json
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 
 FRAMES_PER_STEP = 60  # Each step contains 60 frames (sync with compress.py)
 FILE_MOVEMENT = "movement.json"
@@ -16,12 +16,22 @@ PERSONAS = [
     "阿比盖尔", "卡洛斯", "乔治", "瑞恩", "山本百合子", "亚当",  # 动画师、诗人、数学家、软件工程师、税务律师、哲学家
 ]
 
+STATIC_ROOT = os.environ.get(
+    "STATIC_ROOT",
+    os.path.join(os.path.dirname(__file__), "frontend", "static"),
+)
+
 app = Flask(
     __name__,
     template_folder="frontend/templates",
-    static_folder="frontend/static",
+    static_folder=STATIC_ROOT,
     static_url_path="/static",
 )
+
+
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory(STATIC_ROOT, filename)
 
 
 @app.route("/", methods=['GET'])
