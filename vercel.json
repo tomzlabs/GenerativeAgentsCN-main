@@ -12,7 +12,6 @@
   ],
   "routes": [
     { "src": "/api/health", "dest": "/api/health.py" },
-    { "src": "/static/(.*)", "dest": "/api/index.py" },
     { "src": "/(.*)", "dest": "/api/index.py" }
   ]
 }
