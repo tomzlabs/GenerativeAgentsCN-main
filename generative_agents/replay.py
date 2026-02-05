@@ -1,5 +1,6 @@
 import os
 import json
+from generative_agents.path_mapping import PERSONA_PATH_MAP
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, send_from_directory
 
@@ -82,6 +83,7 @@ def index():
         step=step,
         play_speed=speed,
         zoom=zoom,
+        persona_path_map=PERSONA_PATH_MAP,
         **params
     )
 

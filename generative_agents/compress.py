@@ -1,5 +1,6 @@
 import os
 import json
+from generative_agents.path_mapping import PERSONA_PATH_MAP
 import argparse
 from datetime import datetime
 
@@ -41,7 +42,7 @@ def insert_frame0(init_pos, movement, agent_name):
     if key not in movement.keys():
         movement[key] = dict()
 
-    json_path = f"frontend/static/assets/village/agents/{agent_name}/agent.json"
+    json_path = f"frontend/static/assets/village/agents/{PERSONA_PATH_MAP[agent_name]}/agent.json"
     with open(json_path, "r", encoding="utf-8") as f:
         json_data = json.load(f)
         address = json_data["spatial"]["address"]["living_area"]
@@ -203,7 +204,7 @@ def generate_report(checkpoints_folder, compressed_folder, compressed_file):
     def extract_description():
         markdown_content = "# 基础人设\n\n"
         for agent_name in personas:
-            json_path = f"frontend/static/assets/village/agents/{agent_name}/agent.json"
+            json_path = f"frontend/static/assets/village/agents/{PERSONA_PATH_MAP[agent_name]}/agent.json"
             with open(json_path, "r", encoding="utf-8") as f:
                 json_data = json.load(f)
                 markdown_content += f"## {agent_name}\n\n"

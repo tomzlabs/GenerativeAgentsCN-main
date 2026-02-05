@@ -35,7 +35,7 @@
                     {% for p in persona_names %}
                     <div class="agent-chip" id="on_screen_det_trigger_container-{{ p }}">
                         <a class="agent-link" href="javascript:void(0);" id="on_screen_det_trigger-{{ p }}">
-                            {% set image_static = 'assets/village/agents/' ~ p ~ '/portrait.png' %}
+                            {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
                             <img src="{{ url_for('static', filename=image_static) }}" class="agent-avatar" alt="{{ p }}">
                             <span class="agent-name">{{ p }}</span>
                         </a>
@@ -53,7 +53,7 @@
                 {% for p in persona_names %}
                     <div class="detail-content" id="on_screen_det_content-{{ p }}" style="display: none;">
                         <div class="detail-avatar">
-                            {% set image_static = 'assets/village/agents/' ~ p ~ '/portrait.png' %}
+                            {% set image_static = 'assets/village/agents/' ~ persona_path_map[p] ~ '/portrait.png' %}
                             <img src="{{ url_for('static', filename=image_static) }}" alt="{{ p }}">
                         </div>
                         <div class="detail-body">

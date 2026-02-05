@@ -3,6 +3,7 @@ import copy
 import json
 import argparse
 import datetime
+from generative_agents.path_mapping import PERSONA_PATH_MAP
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -129,7 +130,7 @@ def get_config_from_log(checkpoints_folder):
     config["time"] = {"start": start_time.strftime("%Y%m%d-%H:%M")}
     agents = config["agents"]
     for a in agents:
-        config["agents"][a]["config_path"] = os.path.join(assets_root, "agents", a.replace(" ", "_"), "agent.json")
+        config["agents"][a]["config_path"] = os.path.join(assets_root, "agents", PERSONA_PATH_MAP[a], "agent.json")
 
     return config
 
@@ -151,7 +152,7 @@ def get_config(start_time="20240213-09:30", stride=15, agents=None):
     for a in agents:
         config["agents"][a] = {
             "config_path": os.path.join(
-                assets_root, "agents", a.replace(" ", "_"), "agent.json"
+                assets_root, "agents", PERSONA_PATH_MAP[a], "agent.json"
             ),
         }
     return config
