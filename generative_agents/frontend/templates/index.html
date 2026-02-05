@@ -2,12 +2,6 @@
 
 {% block content %}
 <div class="page">
-    <div id="loading-screen">
-        <div id="loading-text">INITIALIZING SYSTEM...</div>
-        <div class="loading-bar">
-            <div class="loading-progress" id="progress-bar"></div>
-        </div>
-    </div>
     <header class="hero">
         <div class="hero-text">
             <p class="hero-eyebrow">SYSTEM: ONLINE | SIMULATION: ACTIVE</p>
@@ -26,6 +20,12 @@
     <main class="layout">
         <section class="canvas-panel">
             <div class="canvas-shell">
+                <div id="loading-screen">
+                    <div id="loading-text">INITIALIZING SYSTEM...</div>
+                    <div class="loading-bar">
+                        <div class="loading-progress" id="progress-bar"></div>
+                    </div>
+                </div>
                 <div id="game-container"></div>
                 <div class="canvas-overlay">
                     <div class="overlay-card">

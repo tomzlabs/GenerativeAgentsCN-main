@@ -15,7 +15,7 @@
 }
 
 #loading-screen {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -25,7 +25,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10;
   color: #00ff00;
   font-family: var(--font-header);
 }
@@ -179,12 +179,20 @@ body::after {
   justify-content: center;
   background: #000;
   image-rendering: pixelated;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  /* Keep aspect ratio */
 }
 
 #game-container>canvas {
   image-rendering: pixelated;
   /* Force sharp scaling for the canvas itself */
-  border: 2px solid #333;
+  border: 4px solid var(--border-color);
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .card {

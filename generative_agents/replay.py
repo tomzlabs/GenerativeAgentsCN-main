@@ -40,7 +40,7 @@ def index():
     name = request.args.get("name", "example")          # 记录名称
     step = int(request.args.get("step", 0))      # 回放起始步数
     speed = int(request.args.get("speed", 2))    # 回放速度（0~5）
-    zoom = float(request.args.get("zoom", 0.8))  # 画面缩放比例
+    zoom = float(request.args.get("zoom", 0.45))  # 画面缩放比例
 
     if len(name) > 0:
         compressed_folder = f"results/compressed/{name}"
