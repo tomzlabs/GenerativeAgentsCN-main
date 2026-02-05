@@ -7,6 +7,7 @@ from modules.utils import GenerativeAgentsMap, GenerativeAgentsKey
 from modules import utils
 from .maze import Maze
 from .agent import Agent
+from .remote_agent import RemoteAgent  # Import the new class
 
 
 class Game:
@@ -34,7 +35,12 @@ class Game:
             agent_config = utils.update_dict(agent_config, agent)
 
             agent_config["storage_root"] = os.path.join(storage_root, name)
-            self.agents[name] = Agent(agent_config, self.maze, self.conversation, self.logger)
+            
+            # Check for remote flag
+            if agent.get("is_remote", False):
+                self.agents[name] = RemoteAgent(agent_config, self.maze, self.conversation, self.logger)
+            else:
+                self.agents[name] = Agent(agent_config, self.maze, self.conversation, self.logger)
 
     def get_agent(self, name):
         return self.agents[name]
