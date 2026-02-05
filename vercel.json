@@ -6,7 +6,7 @@
       "use": "@vercel/python",
       "config": {
         "maxDuration": 30,
-        "includeFiles": "public/**"
+        "includeFiles": "api/static/**"
       }
     }
   ],
