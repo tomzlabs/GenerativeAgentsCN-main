@@ -10,13 +10,6 @@ Generative Agents的原始代码工程化程度较低，难以持续维护或拓
 
 [wounderland](https://github.com/Archermmt/wounderland)项目是原[Generative Agents](https://github.com/joonspk-research/generative_agents)项目的重构版本，结构良好且代码质量远优于原版，因此本项目基于wounderland开发。
 
-更新：
-
-- 2025.06.02
-    - 增加对`Qwen3`和`DeepSeek-R1`等新模型的支持（处理输出结果中的\<think\>标签）。
-- 2026.01.15
-    - 使用`pydantic`模型取代正则表达式解析。感谢[Findworth](https://github.com/Findworth)提交的PR。
-    - 默认语言模型改为`qwen3:4b-instruct-2507`，嵌入模型改为`qwen3-embedding:0.6b`，减少显存占用，提升推理速度。
 
 主要工作：
 
