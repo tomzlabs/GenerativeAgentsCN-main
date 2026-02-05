@@ -37,3 +37,16 @@ if all_good:
 else:
     print("Verification failed.")
     sys.exit(1)
+
+print("Verifying template changes...")
+template_path = "generative_agents/frontend/templates/main_script.html"
+if os.path.exists(template_path):
+    with open(template_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        if "persona_path_map" in content:
+             print("Template check passed: persona_path_map found in main_script.html")
+        else:
+             print("Template check failed: persona_path_map NOT found in main_script.html")
+             sys.exit(1)
+else:
+    print(f"Warning: {template_path} not found.")

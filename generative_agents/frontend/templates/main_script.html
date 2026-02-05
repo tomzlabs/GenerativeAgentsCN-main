@@ -1,21 +1,22 @@
 <script type="text/javascript">
 	// Initialize variables from Flask context
-	let step = {{ step|tojson }};
-	let step_size = {{ sec_per_step|tojson }} * 1000; // Convert to milliseconds
-	let zoom = {{ zoom|tojson }};
+	let step = {{ step| tojson }};
+	let step_size = {{ sec_per_step| tojson }} * 1000; // Convert to milliseconds
+	let zoom = {{ zoom| tojson }};
 	if (zoom <= 0) zoom = document.documentElement.clientWidth / 4400;
 
 	let tile_width = 32;
-	let movement_speed = {{ play_speed|tojson }};
+	let movement_speed = {{ play_speed| tojson }};
 	let execute_count_max = tile_width / movement_speed;
 	let execute_count = execute_count_max;
-	let all_movement = {{ all_movement|tojson }};
+	let all_movement = {{ all_movement| tojson }};
 
 	let datetime_options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-	let start_datetime = new Date(Date.parse({{ start_datetime|tojson }}));
+	let start_datetime = new Date(Date.parse({{ start_datetime| tojson }}));
 
 	// Persona related variables
-	let persona_names = {{ persona_init_pos|tojson }};
+	let persona_names = {{ persona_init_pos| tojson }};
+	let persona_path_map = {{ persona_path_map| tojson }};
 	var spawn_tile_loc = {};
 	for (var key in persona_names) {
 		spawn_tile_loc[key] = persona_names[key];
@@ -37,10 +38,10 @@
 		type: Phaser.AUTO,
 		// width: 4480,
 		// height: 3200,
-        width: document.documentElement.clientWidth / zoom,
-        height: document.documentElement.clientHeight / zoom,
+		width: document.documentElement.clientWidth / zoom,
+		height: document.documentElement.clientHeight / zoom,
 		parent: "game-container",
-        mode: Phaser.Scale.FIT,
+		mode: Phaser.Scale.FIT,
 		pixelArt: true,
 		physics: {
 			default: "arcade",
@@ -88,12 +89,12 @@
 		// Load tilemap JSON
 		this.load.tilemapTiledJSON("map", "static/assets/village/tilemap/tilemap.json");
 
-		this.load.atlas("atlas", "static/assets/village/agents/伊莎贝拉/texture.png", filename="static/assets/village/agents/sprite.json");
+		this.load.atlas("atlas", "static/assets/village/agents/" + persona_path_map["伊莎贝拉"] + "/texture.png", filename = "static/assets/village/agents/sprite.json");
 
 		// Load persona atlases
 		for (var p in persona_names) {
-			image_static = "static/assets/village/agents/" + p + "/texture.png";
-			this.load.atlas(p, image_static, filename="static/assets/village/agents/sprite.json");
+			image_static = "static/assets/village/agents/" + persona_path_map[p] + "/texture.png";
+			this.load.atlas(p, image_static, filename = "static/assets/village/agents/sprite.json");
 		}
 	}
 
@@ -156,9 +157,9 @@
 					fontWeight: "normal",
 					fill: "#000000",
 					backgroundColor: background,
-					padding: { x: 20, y: 4},
+					padding: { x: 20, y: 4 },
 					align: "left",
-					wordWrap: { width: 1200/zoom, useAdvancedWrap: true },
+					wordWrap: { width: 1200 / zoom, useAdvancedWrap: true },
 				}
 			);
 
@@ -205,7 +206,7 @@
 
 		// Setup personas
 		// We start by creating the game sprite objects.
-		for (let i=0; i<Object.keys(spawn_tile_loc).length; i++) {
+		for (let i = 0; i < Object.keys(spawn_tile_loc).length; i++) {
 			let persona_name = Object.keys(spawn_tile_loc)[i];
 			let start_pos = [spawn_tile_loc[persona_name][0] * tile_width + tile_width / 2, spawn_tile_loc[persona_name][1] * tile_width + tile_width];
 			let new_sprite = this.physics.add.sprite(start_pos[0], start_pos[1], persona_name, "down").setSize(30, 40).setOffset(0, 0);
@@ -223,9 +224,9 @@
 					font: "18px monospace",
 					fill: "#000000",
 					backgroundColor: "#ffffcc",
-					padding: { x: 4, y: 4},
-					border:"solid",
-					borderRadius:"10px"
+					padding: { x: 4, y: 4 },
+					border: "solid",
+					borderRadius: "10px"
 				}
 			).setDepth(3);
 			pronunciatios[persona_name].alpha = 0.7;
@@ -276,27 +277,27 @@
 	// Update function
 	function update(time, delta) {
 		// Setup play and pause button
-		buttonPlay.on("pointerdown", function() {
+		buttonPlay.on("pointerdown", function () {
 			if (finished) return;
 			buttonPlay.text = "[运行]";
 			buttonPause.text = " 暂停 ";
 			paused = false;
 		});
 
-		buttonPause.on("pointerdown", function() {
+		buttonPause.on("pointerdown", function () {
 			if (finished) return;
 			buttonPlay.text = " 运行 ";
 			buttonPause.text = "[暂停]";
 			paused = true;
 		});
 
-		buttonShowConversation.on("pointerdown", function() {
+		buttonShowConversation.on("pointerdown", function () {
 			buttonShowConversation.text = "[显示对话]";
 			buttonHideConversation.text = " 隐藏对话 ";
 			textConversation.setVisible(true);
 		});
 
-		buttonHideConversation.on("pointerdown", function() {
+		buttonHideConversation.on("pointerdown", function () {
 			buttonShowConversation.text = " 显示对话 ";
 			buttonHideConversation.text = "[隐藏对话]";
 			textConversation.setVisible(false);
@@ -357,13 +358,13 @@
 						let action = all_movement[step][curr_persona_name.replace("_", " ")]["action"];
 
 						let act = action;
-						act = act.length > 25 ? act.substring(0, 20)+"..." : act;
+						act = act.length > 25 ? act.substring(0, 20) + "..." : act;
 						pronunciatios[curr_persona_name].setText(curr_persona_name + ": " + act);
 
 						// Updating the status of each personas
-						document.getElementById("agent_desc__"+curr_persona_name).innerHTML = all_movement["description"][curr_persona_name]["currently"];
-						document.getElementById("current_action__"+curr_persona_name).innerHTML = action;
-						document.getElementById("target_address__"+curr_persona_name).innerHTML = all_movement[step][curr_persona_name.replace("_", " ")]["location"];
+						document.getElementById("agent_desc__" + curr_persona_name).innerHTML = all_movement["description"][curr_persona_name]["currently"];
+						document.getElementById("current_action__" + curr_persona_name).innerHTML = action;
+						document.getElementById("target_address__" + curr_persona_name).innerHTML = all_movement[step][curr_persona_name.replace("_", " ")]["location"];
 					}
 
 					if (execute_count > 0) {
