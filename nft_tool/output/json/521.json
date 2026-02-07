@@ -1,0 +1,15 @@
+{
+    "name": "AI Town Agent #521",
+    "description": "A unique resident of the AI Town.",
+    "image": "ipfs://YOUR_CID_HERE/521.png",
+    "attributes": [
+        {
+            "trait_type": "Background",
+            "value": "Isometric Rooms Sheet 1770464012200 1 0"
+        },
+        {
+            "trait_type": "Character",
+            "value": "Full Characters Sheet 1770463992899 3 1"
+        }
+    ]
+}
