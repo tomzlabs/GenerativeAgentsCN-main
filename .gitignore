@@ -22,7 +22,7 @@ lib64/
 parts/
 sdist/
 var/
-nft_tool/layers
+nft_tool/
 wheels/
 share/python-wheels/
 *.egg-info/
